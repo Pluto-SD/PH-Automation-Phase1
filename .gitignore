@@ -102,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+PH_offline_login_time/IEDriverServer.exe
