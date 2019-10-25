@@ -93,7 +93,7 @@ class TimeTests(unittest.TestCase):
         time.sleep(1)
     
     #Deposit Bank Statement Performance
-    def test_00002_bsdetail(self):
+    def test_00002_bsmanagement(self):
         settc1()
 
         self.driver.find_element_by_link_text("Transactions").click()
