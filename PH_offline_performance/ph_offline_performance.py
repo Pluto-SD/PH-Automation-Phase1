@@ -63,7 +63,7 @@ class TimeTests(unittest.TestCase):
         self.driver.find_element_by_name("yt0").click()
 
     #Bank Statement - Detail Performance
-    # def test_00001_bsdetail(self):
+    def test_00001_bsdetail(self):
         settc1()
         settc2()
         self.driver.find_element_by_link_text("Reports").click()
