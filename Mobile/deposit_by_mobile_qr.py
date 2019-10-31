@@ -43,11 +43,12 @@ def load_qr_info():
         if len(barcodes):
             notFound = False
 
+    # 若解碼成功返回二維碼內容，反之解碼失敗
     if notFound is False:
         barcodeData = barcodes[0].data.decode("utf-8")
     else:
         barcodeData = False
-        # 設定barcodeData為某值並回傳，交由另一function判斷後續動作
+
     return barcodeData
 
 
