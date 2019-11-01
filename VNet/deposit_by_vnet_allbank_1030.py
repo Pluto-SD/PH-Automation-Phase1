@@ -6,6 +6,7 @@ from selenium.common import exceptions
 from time import sleep, time
 import random
 import datetime
+import os
 
 
 # 生成隨機n位數
@@ -49,21 +50,24 @@ def bank_name(bankcode):
 
 
 # 輸入交易資訊
-def vnet_info_input():
+def vnet_info_input(amt):
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     print("Start to input transaction info.")
     driver.find_element_by_css_selector("li[onclick*='mockvnc']").click()
     driver.find_element_by_name("mer_id").click()
     try:
-        driver.find_element_by_css_selector("option[value='MQA00001']").click()     # Merchant ID: MQA00001
+        driver.find_element_by_css_selector("option[value='MQA00002']").click()     # Merchant ID: MQA00001
         driver.find_element_by_name("cust_tag").send_keys(customer_tag())
         driver.find_element_by_name("txn_amt").clear()
+        """ Use random number to be txn amount
         deposit = get_random_num(4)
         driver.find_element_by_name("txn_amt").send_keys(deposit)
-        print("deposit amount is $" + str(int(deposit)/100))
+        """
+        driver.find_element_by_name("txn_amt").send_keys(amt)   # 透過csv檔讀取txn amount
+        print("deposit amount is $" + str(int(amt)/100))
         driver.find_element_by_name("Submit").click()
         driver.find_element_by_name("btn_buyCard").click()
-        driver.find_element_by_name("card_type_debit").click()      # Debit Card
+        # driver.find_element_by_name("card_type_debit").click()      # Debit Card; 使用MQA00002需註解，因為不須選擇
     except exceptions.NoSuchElementException as err:
         driver.save_screenshot("/SD/VNet_Deposit_Error.png")
         print("+++++++++++++++++++++++++++++++++++++++++++++++")
@@ -96,20 +100,41 @@ def dep_all_banks_by_vnet(allbanks):
             driver.get("http://mock.systest.site/sdprod")
             driver.find_element_by_id("mockpwd").send_keys("mockpwd\n")
             sleep(1)
-            vnet_info_input()
+            vnet_info_input(txnamt[0][1])
 
 
 if __name__ == '__main__':
+    txnamt = []
+    if os.path.isfile("txnamt.csv"):
+        print("檔案- txnamt.csv 存在.")
+        with open("txnamt.csv", "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                # if 'VNet' in line: continue # 繼續，跳到下一迴()
+                s = line.strip().split(',')     # split(',') 遇到 ',' 就切開分成另一個欄位
+                case = s[0]
+                item = s[1]
+                data = s[2]
+                if case == '\ufeffVNet':
+                    txnamt.append([item, data])
+                elif case == 'login':
+                    pass
+                elif case == 'invalid':
+                    pass
+                elif case == 'repeat':
+                    pass
+
     driver = webdriver.Ie()
     driver.maximize_window()
     driver.implicitly_wait(6)
 
     T1 = time()
-
+    print(s)
+    print(txnamt)
+    print(type(txnamt))
     # Loging Mock & Input Txn Info
     driver.get("http://mock.systest.site/sdprod")
     driver.find_element_by_id("mockpwd").send_keys("mockpwd\n")
-    if vnet_info_input():
+    if vnet_info_input(txnamt[0][1]):
         # Get all banks that display on screen
         banks_list = []
         elements_list = driver.find_elements_by_css_selector("input[value*='086']")     # 取得所有屬性value有包含086的元素定位
