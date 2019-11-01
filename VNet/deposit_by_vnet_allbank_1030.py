@@ -128,9 +128,7 @@ if __name__ == '__main__':
     driver.implicitly_wait(6)
 
     T1 = time()
-    print(s)
-    print(txnamt)
-    print(type(txnamt))
+
     # Loging Mock & Input Txn Info
     driver.get("http://mock.systest.site/sdprod")
     driver.find_element_by_id("mockpwd").send_keys("mockpwd\n")
