@@ -14,15 +14,30 @@ test_page = unittest.TestLoader().loadTestsFromTestCase(LoginTests)
 
 # create a test suite combining search_test and home_page_test
 #smoke_tests = unittest.TestSuite([home_page_tests, search_tests])
-#one_tests = unittest.TestSuite(LoginTests)
+
+#定義測試案例的目錄為當前的目錄
+# test_dir = './'
+# discover = unittest.defaultTestLoader.discover(test_dir, pattern='ph*.py') #pattern 表示撈資料夾內所有ph開頭的py都加入測試
+
+
+#建置測試集
+suite = unittest.TestSuite()
+# suite.addTest(LoginTests('test_Login'))
+# suite.addTest(LoginTests('test_Error_invalid'))
+suite.addTests([LoginTests('test_Login'), LoginTests('test_Error_invalid')])
+
+#執行測試
+# runner = unittest.TextTestRunner()
+# runner.run(suite)
 
 # open the report file
-outfile = open(result_dir + '\PH_Login_Admin_Online.html', 'w')
+outfile = open(result_dir + '\phlogin.html', 'w')
 
 # configure HTMLTestRunner options
 runner = HTMLTestRunner.HTMLTestRunner(stream=outfile,
-                                       title='PH Admin Online Login Test Report',
+                                       title='PH Login Test Report',
                                        description='PH Login/Logout Test')
 
 # run the suite using HTMLTestRunner
 runner.run(test_page)
+# runner.run(discover)
