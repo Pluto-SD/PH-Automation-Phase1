@@ -35,7 +35,7 @@ outfile = open(result_dir + '\phlogin.html', 'w')
 
 # configure HTMLTestRunner options
 runner = HTMLTestRunner.HTMLTestRunner(stream=outfile,
-                                       title='PH Login Test Report',
+                                       title='PH Online Login Test Report',
                                        description='PH Login/Logout Test')
 
 # run the suite using HTMLTestRunner
