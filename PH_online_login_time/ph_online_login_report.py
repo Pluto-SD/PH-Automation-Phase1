@@ -33,7 +33,7 @@ suite.addTest(LoginTests('test_00002_Logout'))
 # runner.run(suite)
 
 # open the report file
-outfile = open(result_dir +'\phlogin' +  time.strftime('_%Y%m%d_%H%M') + '.html', 'w')
+outfile = open(result_dir +'\phlogin' +  time.strftime('_%Y%m%d_%H%M%S') + '.html', 'w')
 # outfile = open(result_dir + '\phlogin.html', 'w')
 
 
