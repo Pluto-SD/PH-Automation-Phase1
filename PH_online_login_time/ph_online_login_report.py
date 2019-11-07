@@ -1,7 +1,6 @@
 import unittest
 import HTMLTestRunner
 import os
-import datetime
 import time
 from ph_online_login import LoginTests
 
