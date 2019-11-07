@@ -1,6 +1,8 @@
 import unittest
 import HTMLTestRunner
 import os
+import datetime
+import time
 from ph_online_login import LoginTests
 
 #from homepagetests import HomePageTest
@@ -22,22 +24,28 @@ test_page = unittest.TestLoader().loadTestsFromTestCase(LoginTests)
 
 #建置測試集
 suite = unittest.TestSuite()
-# suite.addTest(LoginTests('test_Login'))
+suite.addTest(LoginTests('test_00001_Login'))
+suite.addTest(LoginTests('test_00002_Logout'))
 # suite.addTest(LoginTests('test_Error_invalid'))
-suite.addTests([LoginTests('test_Login'), LoginTests('test_Error_invalid')])
+# suite.addTests([LoginTests('test_Login'), LoginTests('test_Error_invalid')])
 
 #執行測試
 # runner = unittest.TextTestRunner()
 # runner.run(suite)
 
 # open the report file
-outfile = open(result_dir + '\phlogin.html', 'w')
+outfile = open(result_dir +'\phlogin' +  time.strftime('_%Y%m%d_%H%M') + '.html', 'w')
+# outfile = open(result_dir + '\phlogin.html', 'w')
+
 
 # configure HTMLTestRunner options
 runner = HTMLTestRunner.HTMLTestRunner(stream=outfile,
                                        title='PH Online Login Test Report',
                                        description='PH Login/Logout Test')
 
+
+runner.run(suite)
+
 # run the suite using HTMLTestRunner
-runner.run(test_page)
+# runner.run(suite)
 # runner.run(discover)
