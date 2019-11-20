@@ -6,6 +6,7 @@ from PIL import Image
 import pyzbar.pyzbar as pyzbar
 import random
 import datetime
+from load_data import load_amt
 
 
 # 生成隨機 n 位數
@@ -59,7 +60,8 @@ def deposit_by_mobile_qr():
     driver.find_element_by_css_selector("option[value='MQA00005']").click()        # MerchantID: MQA VMOBILE2
     driver.find_element_by_css_selector("td.nnormal>input#cust_tag").send_keys(customer_tag())      # 亂數生成Customer Tag
     driver.find_element_by_css_selector("input#txn_amt").clear()
-    driver.find_element_by_css_selector("input#txn_amt").send_keys(get_random_num(4))      # 亂數生成deposit amount
+    amount = load_amt()
+    driver.find_element_by_css_selector("input#txn_amt").send_keys(amount[0][1])
     # PSP Account ID: driver.find_elements_by_css_selector("select#selected_pid[name='selected_pid']").click()
     # Bank Code: driver.find_elements_by_css_selector("select#bank_code").click()
     driver.find_element_by_css_selector("input#Submit").click()
