@@ -16,7 +16,7 @@ test = unittest.TestLoader().loadTestsFromTestCase(bankacct)
 #smoke_tests = unittest.TestSuite([home_page_tests, search_tests])
 
 # open the report file
-outfile = open(result_dir + '\ph_create_bankacct.html', 'w')
+outfile = open(result_dir + '\ph_create_bankacct' + time.strftime('-%Y%m%d-%H%M') + '.html', 'w')
 
 # configure HTMLTestRunner options
 runner = HTMLTestRunner.HTMLTestRunner(stream=outfile,
