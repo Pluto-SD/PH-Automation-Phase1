@@ -10,9 +10,9 @@ import os
 
 
 # 生成隨機n位數
-def get_random_num(degits):
+def get_random_num(digits):
     rand_num = ""
-    for i in range(degits):
+    for i in range(digits):
         ch = chr(random.randrange(ord("0"), ord("9") + 1))
         rand_num += ch
     return rand_num

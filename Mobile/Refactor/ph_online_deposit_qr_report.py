@@ -18,7 +18,7 @@ test_page = unittest.TestLoader().loadTestsFromTestCase(QRTests)
 # one_tests = unittest.TestSuite(test_Logout)
 
 '''Open the report file'''
-outfile = open(result_dir + "\\PH_Deposit_QR.html", "wb")       # w -> wb, 解決TypeError: write() argument must be str, not bytes
+outfile = open(result_dir + "\\PH_Deposit_QR.html", "wb")       # 20191122: w -> wb, 解決TypeError: write() argument must be str, not bytes
 
 # Configure HTMLTestRunner options
 runner = HTMLTestRunner.HTMLTestRunner(stream=outfile, title='PH Deposit QR Test Report', description='PH online Deposit QR Test')
