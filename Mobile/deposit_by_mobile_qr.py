@@ -7,6 +7,7 @@ import pyzbar.pyzbar as pyzbar
 import random
 import datetime
 from load_data import load_amt
+from decimal import *
 
 
 # 生成隨機 n 位數
@@ -108,7 +109,9 @@ if __name__ == '__main__':
     driver.find_element_by_id("mockpwd").send_keys("mockpwd\n")
     deposit_by_mobile_qr()
 
-    print("Cost time is " + str(time() - T1))
+    total = time() - T1
+    print("Cost time is " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
+    # print("Cost time is " + str(time() - T1))
 
     sleep(2)
 
