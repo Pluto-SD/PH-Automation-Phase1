@@ -7,7 +7,7 @@ import pyzbar.pyzbar as pyzbar
 import random
 import datetime
 from load_data import load_amt
-from decimal import *
+from decimal import Decimal
 
 
 # 生成隨機 n 位數
