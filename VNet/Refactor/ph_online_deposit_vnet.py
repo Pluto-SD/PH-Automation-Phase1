@@ -4,6 +4,7 @@ from time import time
 import unittest
 from deposit_by_vnet import Deposit_by_VNet
 from load_data import load_vnet_amt
+from decimal import Decimal
 
 
 class VNetTests(unittest.TestCase):
@@ -40,14 +41,18 @@ class VNetTests(unittest.TestCase):
         函數級別 - 測試結束後的操作，這裡基本上都是關閉瀏覽器 (but 已在test case中關閉)
         函數結束 - 每條case之後執行
         """
-        print("Cost time is " + str(time() - self.sTime))
+        total = time() - self.sTime
+        print("Cost time is " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
+        # print("Cost time is " + str(time() - self.sTime))
 
     @classmethod
     def tearDownClass(cls):
         """
         類級別: 類結束 - 所有case執行之後的後置
         """
-        print("The total time of test cases is " + str(time() - cls.tTime))
+        ttl = time() - cls.tTime
+        print("Cost time is " + str(Decimal(ttl).quantize(Decimal('0.00'))) + " seconds.")
+        # print("The total time of test cases is " + str(time() - cls.tTime))
 
 
 if __name__ == '__main__':

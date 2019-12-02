@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from time import sleep, time
 import random
 import datetime
+from decimal import Decimal
 
 
 # 生成隨機n位數
@@ -65,7 +66,9 @@ T1 = time()
 driver.get("http://mock.systest.site/sdprod")
 driver.find_element_by_id("mockpwd").send_keys("mockpwd\n")
 deposit_by_vnet()
-print("Cost time is", str(time() - T1))        # 測試耗時
+total = time() - T1
+print("Cost time is " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
+# print("Cost time is", str(time() - T1))        # 測試耗時
 
 sleep(2)
 driver.quit()

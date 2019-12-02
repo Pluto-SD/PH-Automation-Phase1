@@ -7,6 +7,7 @@ from time import sleep, time
 import random
 import datetime
 import os
+from decimal import Decimal
 
 
 # 生成隨機n位數
@@ -142,7 +143,9 @@ if __name__ == '__main__':
         print("Bank Code:", banks_list)
         dep_all_banks_by_vnet(banks_list)   # 循序使用該merchant所有可用銀行deposit
 
-    print("Total testing time is", str(time() - T1))
+    total = time() - T1
+    print("Cost time is " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
+    # print("Total testing time is", str(time() - T1))
     sleep(2)
     driver.close()
     driver.quit()
