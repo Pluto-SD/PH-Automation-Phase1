@@ -5,36 +5,45 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.action_chains import ActionChains
 from decimal import *
-import common 
+from common import ph
+
+read = ph()
+read.readfile()
 
 class APGTimeTests(unittest.TestCase):
 
     #initiation for the test
     @classmethod
     def setUpClass(cls):
-        data = []
-        common.readfile()
-        data = common.login()
-        dir = os.getcwd()
-        ie_driver_path = dir + '\IEDriverServer.exe'
-        # create a new Internet Explorer session
-        cls.driver = webdriver.Ie(ie_driver_path)
-        cls.driver.implicitly_wait(360)
-        cls.driver.maximize_window()
-        cls.driver.get('https://tadmin.xx217569.com/admin/auth/login')
+       
+        
+        cls.driver = read.webd()
+        #self.read.driver = read.webd()
+       
+
+        # data = read.login()
+        
+        # dir = os.getcwd()
+        # ie_driver_path = dir + '\IEDriverServer.exe'
+        # # create a new Internet Explorer session
+        # cls.driver = webdriver.Ie(ie_driver_path)
+        # cls.driver.implicitly_wait(360)
+        # cls.driver.maximize_window()
+        # cls.driver.get('https://tadmin.xx217569.com/admin/auth/login')
 
         # #For IE Only
         #cls.driver.get("javascript:document.getElementById('overridelink').click();") 
         #Login
-        cls.driver.find_element_by_id("UserLoginForm_username").clear()
-        cls.driver.find_element_by_id("UserLoginForm_username").send_keys(data[0][1])
-        cls.driver.find_element_by_id("UserLoginForm_password").clear()
-        cls.driver.find_element_by_id("UserLoginForm_password").send_keys(data[1][1])
-        cls.driver.find_element_by_name("yt0").click()
+        # cls.driver.find_element_by_id("UserLoginForm_username").clear()
+        # cls.driver.find_element_by_id("UserLoginForm_username").send_keys(data[0][1])
+        # cls.driver.find_element_by_id("UserLoginForm_password").clear()
+        # cls.driver.find_element_by_id("UserLoginForm_password").send_keys(data[1][1])
+        # cls.driver.find_element_by_name("yt0").click()
 
     # #Deposit Bank Statement - Detail
     def test_00001_bsdetail(self):
-        date_a = common.date_a()
+        
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         self.driver.find_element_by_link_text("Reports").click()
@@ -81,7 +90,7 @@ class APGTimeTests(unittest.TestCase):
 
     #Bank Statement - Summary Performance
     def test_00002_bssummary(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         t = True
@@ -127,7 +136,7 @@ class APGTimeTests(unittest.TestCase):
 
     #Raw Bank Statement Ledger
     def test_00003_rawbsledger(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         t = True
@@ -168,7 +177,7 @@ class APGTimeTests(unittest.TestCase):
         
     #Expire and Manual Accept Bank Record
     def test_00004_expirerrecord(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         t = True
@@ -206,48 +215,48 @@ class APGTimeTests(unittest.TestCase):
         self.assertIn("Displaying",show, msg="Display Error!")
         self.assertIn("Expire and Manual",title, msg="Display Error!") 
 
-    # #Unknown Bank Statement Detail
-    # # def test_00005_ unknowbs(self):
-    # #     settc1()
-    # #     settc2()
-    # #     t = True
-    # #     f = False
-    # #     self.driver.find_element_by_link_text("Reports").click()
-    # #     #Bank Statement
-    # #     self.driver.find_element_by_link_text("Unknown Bank Statement Detail").click()
+    # # #Unknown Bank Statement Detail
+    # # # def test_00005_ unknowbs(self):
+    # # #     settc1()
+    # # #     settc2()
+    # # #     t = True
+    # # #     f = False
+    # # #     self.driver.find_element_by_link_text("Reports").click()
+    # # #     #Bank Statement
+    # # #     self.driver.find_element_by_link_text("Unknown Bank Statement Detail").click()
                 
-    # #     self.driver.find_element_by_id("START_DATE").clear()
-    # #     self.driver.find_element_by_id("START_DATE").send_keys(sdate)
-    # #     self.driver.find_element_by_xpath("/html/body/div[2]/div[3]/button[2]").click()
-    # #     self.driver.find_element_by_id("END_DATE").clear()
-    # #     self.driver.find_element_by_id("END_DATE").send_keys(edate)
-    # #     self.driver.find_element_by_xpath("/html/body/div[2]/div[3]/button[2]").click()
-    # #     #Search前 先記錄時間
-    # #     sTime = time.time()
-    # #     self.driver.find_element_by_id("btn_Search").click() 
-    # #     show = self.driver.find_element_by_css_selector("#statement-detail-grid > div.summary").text
-    # #     url_now = self.driver.current_url
-    # #     title = self.driver.find_element_by_css_selector("#content > h1").text
+    # # #     self.driver.find_element_by_id("START_DATE").clear()
+    # # #     self.driver.find_element_by_id("START_DATE").send_keys(sdate)
+    # # #     self.driver.find_element_by_xpath("/html/body/div[2]/div[3]/button[2]").click()
+    # # #     self.driver.find_element_by_id("END_DATE").clear()
+    # # #     self.driver.find_element_by_id("END_DATE").send_keys(edate)
+    # # #     self.driver.find_element_by_xpath("/html/body/div[2]/div[3]/button[2]").click()
+    # # #     #Search前 先記錄時間
+    # # #     sTime = time.time()
+    # # #     self.driver.find_element_by_id("btn_Search").click() 
+    # # #     show = self.driver.find_element_by_css_selector("#statement-detail-grid > div.summary").text
+    # # #     url_now = self.driver.current_url
+    # # #     title = self.driver.find_element_by_css_selector("#content > h1").text
         
-    # #     #有找到Table中的元素(view圖示),table出來才算搜尋結束,搜尋超過120秒即failed
+    # # #     #有找到Table中的元素(view圖示),table出來才算搜尋結束,搜尋超過120秒即failed
 
-    # #     if self.driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[2]/table/tbody/tr[1]/td[18]/a/img"):
-    # #         eTime = time.time()
-    # #         total = eTime - sTime
-    # #         if total > 120.00:
-    # #             self.assertTrue(f,msg='Warring!!! Loading cost over 120 seconds!')
-    # #             print("Search Condition: \nStart Date: "+ sdate + "\n" + "End Date: "+ edate)
-    # #             print("Reports > Expire and Manual Accept Bank Record search cost " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
-    # #         else:
-    # #             print("Search Condition: \nStart Date: "+ sdate + "\n" + "End Date: "+ edate)
-    # #             print("Reports > Expire and Manual Accept Bank Record search cost " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
-    # #     self.assertIn("expiredStmtDetail/index",url_now, msg="Wrong Page!")
-    # #     self.assertIn("Displaying",show, msg="Display Error!")
-    # #     self.assertIn("Ledger",title, msg="Display Error!") 
+    # # #     if self.driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[2]/table/tbody/tr[1]/td[18]/a/img"):
+    # # #         eTime = time.time()
+    # # #         total = eTime - sTime
+    # # #         if total > 120.00:
+    # # #             self.assertTrue(f,msg='Warring!!! Loading cost over 120 seconds!')
+    # # #             print("Search Condition: \nStart Date: "+ sdate + "\n" + "End Date: "+ edate)
+    # # #             print("Reports > Expire and Manual Accept Bank Record search cost " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
+    # # #         else:
+    # # #             print("Search Condition: \nStart Date: "+ sdate + "\n" + "End Date: "+ edate)
+    # # #             print("Reports > Expire and Manual Accept Bank Record search cost " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
+    # # #     self.assertIn("expiredStmtDetail/index",url_now, msg="Wrong Page!")
+    # # #     self.assertIn("Displaying",show, msg="Display Error!")
+    # # #     self.assertIn("Ledger",title, msg="Display Error!") 
 
     #Bank Statement - Detail Performance
     def test_00006_dpstran(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         t = True
@@ -284,7 +293,7 @@ class APGTimeTests(unittest.TestCase):
 
     #MID & BAID Transaction History
     def test_00007_dpstranh(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         t = True
@@ -322,7 +331,7 @@ class APGTimeTests(unittest.TestCase):
     
     #Deposit Transaction Performance
     def test_00008_dpstranper(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         t = True
@@ -362,7 +371,7 @@ class APGTimeTests(unittest.TestCase):
 
     #Payout Summary
     def test_00009_payoutSummary(self):
-        date_b = common.date_b()
+        date_b = read.date_b()
         sd2 = date_b[0][1]
         ed2 = date_b[1][1]
         t = True
@@ -400,49 +409,49 @@ class APGTimeTests(unittest.TestCase):
         self.assertIn("Displaying",show, msg="Display Error!")
         self.assertIn("Payout Summary",title, msg="Display Error!")
     
-    #Payout Reconciliation Summary
-    # def test_00010_payoutRecon(self):
-    #     settc1()
-    #     settc3()
-    #     t = True
-    #     f = False
-    #     self.driver.find_element_by_link_text("Reports").click()
-    #     #Deposit Transaction
-    #     self.driver.find_element_by_link_text("Payout Reconciliation Summary").click()
-    #     self.driver.find_element_by_id("START_DATE").clear()
-    #     self.driver.find_element_by_id("START_DATE").send_keys(sdate2)
-    #     self.driver.find_element_by_xpath("/html/body/div[2]/div[3]/button[2]").click()
-    #     self.driver.find_element_by_id("END_DATE").clear()
-    #     self.driver.find_element_by_id("END_DATE").send_keys(edate2)
-    #     self.driver.find_element_by_xpath("/html/body/div[2]/div[3]/button[2]").click()
-    #     #Search前 先記錄時間
-    #     sTime = time.time()
-    #     self.driver.find_element_by_id("btn_Search").click() 
-    #     show = self.driver.find_element_by_css_selector("#payout-recon-summary-grid > div.summary").text
-    #     url_now = self.driver.current_url
-    #     title = self.driver.find_element_by_css_selector("#content > h1").text
-    #     #有找到Table中的元素(view圖示),table出來才算搜尋結束,搜尋超過120秒即failed
+    # #Payout Reconciliation Summary
+    # # def test_00010_payoutRecon(self):
+    # #     settc1()
+    # #     settc3()
+    # #     t = True
+    # #     f = False
+    # #     self.driver.find_element_by_link_text("Reports").click()
+    # #     #Deposit Transaction
+    # #     self.driver.find_element_by_link_text("Payout Reconciliation Summary").click()
+    # #     self.driver.find_element_by_id("START_DATE").clear()
+    # #     self.driver.find_element_by_id("START_DATE").send_keys(sdate2)
+    # #     self.driver.find_element_by_xpath("/html/body/div[2]/div[3]/button[2]").click()
+    # #     self.driver.find_element_by_id("END_DATE").clear()
+    # #     self.driver.find_element_by_id("END_DATE").send_keys(edate2)
+    # #     self.driver.find_element_by_xpath("/html/body/div[2]/div[3]/button[2]").click()
+    # #     #Search前 先記錄時間
+    # #     sTime = time.time()
+    # #     self.driver.find_element_by_id("btn_Search").click() 
+    # #     show = self.driver.find_element_by_css_selector("#payout-recon-summary-grid > div.summary").text
+    # #     url_now = self.driver.current_url
+    # #     title = self.driver.find_element_by_css_selector("#content > h1").text
+    # #     #有找到Table中的元素(view圖示),table出來才算搜尋結束,搜尋超過120秒即failed
 
-    #     if self.driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[2]/table/tbody/tr[1]/td[1]"):
-    #         eTime = time.time()
-    #         total = eTime - sTime
-    #         if total > 120.00:
-    #             self.assertTrue(f,msg='Warring!!! Loading cost over 120 seconds!')
-    #             print("Search Condition: \nStart Date: "+ sdate2 + "\n" + "End Date: "+ edate2)
-    #             print("Reports > Payout Reconciliation Summary search cost " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
-    #         else:
-    #             print("Search Condition: \nStart Date: "+ sdate2 + "\n" + "End Date: "+ edate2)
-    #             print("Reports > Payout Reconciliation Summary search cost " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
-    #     self.assertIn("/payoutReconSummary/index",url_now, msg="Wrong Page!")
-    #     self.assertIn("Displaying",show, msg="Display Error!")
-    #     self.assertIn("Payout Reconciliation",title, msg="Display Error!")
+    # #     if self.driver.find_element_by_xpath("/html/body/div[1]/div[3]/div[2]/table/tbody/tr[1]/td[1]"):
+    # #         eTime = time.time()
+    # #         total = eTime - sTime
+    # #         if total > 120.00:
+    # #             self.assertTrue(f,msg='Warring!!! Loading cost over 120 seconds!')
+    # #             print("Search Condition: \nStart Date: "+ sdate2 + "\n" + "End Date: "+ edate2)
+    # #             print("Reports > Payout Reconciliation Summary search cost " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
+    # #         else:
+    # #             print("Search Condition: \nStart Date: "+ sdate2 + "\n" + "End Date: "+ edate2)
+    # #             print("Reports > Payout Reconciliation Summary search cost " + str(Decimal(total).quantize(Decimal('0.00'))) + " seconds.")
+    # #     self.assertIn("/payoutReconSummary/index",url_now, msg="Wrong Page!")
+    # #     self.assertIn("Displaying",show, msg="Display Error!")
+    # #     self.assertIn("Payout Reconciliation",title, msg="Display Error!")
 
-    #Fx MarkUp
+    # #Fx MarkUp
     def test_00011_fxmarkup(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
-        prov1 = common.provider()
+        prov1 = read.provider()
         pro = prov1[0][1]
         
         t = True
@@ -478,9 +487,9 @@ class APGTimeTests(unittest.TestCase):
         #self.assertIn("Displaying",show, msg="Display Error!")
         self.assertIn("FX Markup Report",title, msg="Display Error!")
 
-    #Pending Fund Balance
+    # #Pending Fund Balance
     def test_00012_PFbalance(self):
-        prov1 = common.provider()
+        prov1 = read.provider()
         pro = prov1[0][1]
         t = True
         f = False
@@ -513,7 +522,7 @@ class APGTimeTests(unittest.TestCase):
     
     #Cost fee Summary
     def test_00013_feeSum(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         t = True
@@ -582,7 +591,7 @@ class APGTimeTests(unittest.TestCase):
 
     #Cost Summary
     def test_00015_costsum(self):
-        date_a = common.date_a()
+        date_a = read.date_a()
         sd = date_a[0][1]
         ed = date_a[1][1]
         t = True
