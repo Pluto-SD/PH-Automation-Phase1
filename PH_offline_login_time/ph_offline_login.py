@@ -4,77 +4,27 @@ import time
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from decimal import *
+from common import ph
 
-TC1 = []
-TC2 = []
-TC3 = []
-TC4 = []
+read = ph()
+read.readfile()
 
-if os.path.isfile('accpw.csv'):
-    print('找到目標檔案 accpw.csv')
-    #讀取檔案
-    with open('accpw.csv', 'r',encoding = 'utf-8', errors = "ignore") as f:
-        for line in f:
-			# if 'login' in line: continue #繼續,跳到下一迴()
-            s = line.strip().split(',') # split(',')就是遇到','就切一刀下去變成兩個欄位
-            case = s[0]
-            item = s[1]
-            data = s[2]
-            if case == 'login':
-                TC1.append([item, data])
-            elif case == 'blank':
-                TC2.append([item, data])
-            elif case == 'invalid':
-                TC3.append([item, data])
-            elif case == 'repeat':
-                TC4.append([item, data])
-
-def settc1(i):
-    global acct, pw, name
-    acct     = TC1[i][1]
-    pw       = TC1[i+1][1]
-    name     = TC1[i+2][1]
-
-def settc2(i):
-    global acct2, pw2
-    acct2     = TC2[i][1]
-    pw2       = TC2[i+1][1]
-
-def settc3(i):
-    global acct3, pw3
-    acct3     = TC3[i][1]
-    pw3       = TC3[i+1][1]
-    
-def settc4(i):
-    global acct4, pw4, name4
-    acct4     = TC4[i][1]
-    pw4       = TC4[i+1][1]
-    name4     = TC4[i+2][1]
+#統計所有case執行時間用
+unittest.total = 0
 
 class LoginTests(unittest.TestCase):
 
     #initiation for the test
     def setUp(self):
-        dir = os.getcwd()
-        ie_driver_path = dir + '\IEDriverServer.exe'
-        # create a new Internet Explorer session
-        self.driver = webdriver.Ie(ie_driver_path)
-        self.driver.implicitly_wait(30)
-        self.driver.maximize_window()
-        self.driver.get('https://pholadminsd.pd.local/admin/auth/login')
+        
+        self.driver = read.webd_nologin()
 
-        #For IE Only
-        # self.driver.find_element_by_xpath("//*[@id='moreInfoContainer']").click()
-        # self.driver.find_element_by_xpath("//*[@id='overridelink']").click()
-        #self.driver.find_element_by_id("moreInfoContainer").click()
-        #self.driver.find_element_by_id("overridelink").click()
-
-        self.driver.get("javascript:document.getElementById('overridelink').click();") 
-    
    #Login process
     def test_00001_Login(self):
-        for i in range(0,len(TC1),3):
-            settc1(i)
+        data = read.login()
+        for i in range(0,len(data),3):
+            acct = data[i][1]
+            pw = data[i+1][1]
             tStart = time.time()
             self.driver.find_element_by_id("UserLoginForm_username").clear()
             self.driver.find_element_by_id("UserLoginForm_username").send_keys(acct)
@@ -92,11 +42,17 @@ class LoginTests(unittest.TestCase):
             
             self.driver.close()
             tEnd = time.time()
-            print("It cost " + str(Decimal(tEnd - tStart).quantize(Decimal('0.00'))) + "seconds.") 
+            t01 = tEnd - tStart
+            print("It cost " + str(Decimal(t01).quantize(Decimal('0.00'))) + "seconds.")
+            unittest.total = t01
+
     #Logout process
     def test_00002_Logout(self):
-        for i in range(0,len(TC1),3):
-            settc1(i)
+        data = read.login()
+        for i in range(0,len(data),3):
+            acct = data[i][1]
+            pw = data[i+1][1]
+            name = data[i+2][1]
             tStart = time.time()
             self.driver.find_element_by_id("UserLoginForm_username").clear()
             self.driver.find_element_by_id("UserLoginForm_username").send_keys(acct)
@@ -115,13 +71,17 @@ class LoginTests(unittest.TestCase):
             
             self.driver.close()
             tEnd = time.time()
-            print("It cost " + str(Decimal(tEnd - tStart).quantize(Decimal('0.00'))) + "seconds.") 
-    
+            t02 = tEnd - tStart
+            print("It cost " + str(Decimal(t02).quantize(Decimal('0.00'))) + "seconds.") 
+            unittest.total = unittest.total + t02
+
     #account = blank, pw = blank, both account&pw blank
     def test_00003_Error_blank(self):
-        for i in range(0,len(TC2),2):
+        data = read.blank()
+        for i in range(0,len(data),2):
+            acct2 = data[i][1]
+            pw2 = data[i+1][1]
             tStart = time.time()
-            settc2(i)
             self.driver.find_element_by_id("UserLoginForm_username").clear()
             self.driver.find_element_by_id("UserLoginForm_username").send_keys(acct2)
             self.driver.find_element_by_id("UserLoginForm_password").clear()
@@ -136,15 +96,18 @@ class LoginTests(unittest.TestCase):
             print("Error message: " + "\n" + E_msg)
             time.sleep(2)
             tEnd = time.time()
-            print("It cost " + str(Decimal(tEnd - tStart).quantize(Decimal('0.00'))) + "seconds.") 
-        self.driver.close()   
+            t03 = tEnd - tStart
+            print("It cost " + str(Decimal(t03).quantize(Decimal('0.00'))) + "seconds.") 
+            unittest.total = unittest.total + t03
        
     
     #account = blank, pw = blank, both account&pw blank
     def test_00004_Error_invalid(self):
-        for i in range(0,len(TC3),2):
+        data = read.invalid()
+        for i in range(0,len(data),2):
+            acct3 = data[i][1]
+            pw3 = data[i+1][1]
             tStart = time.time()
-            settc3(i)
             self.driver.find_element_by_id("UserLoginForm_username").clear()
             self.driver.find_element_by_id("UserLoginForm_username").send_keys(acct3)
             self.driver.find_element_by_id("UserLoginForm_password").clear()
@@ -159,20 +122,23 @@ class LoginTests(unittest.TestCase):
             print("Error message: "+ "\n" + E_msg)
             time.sleep(2)
             tEnd = time.time()
-            print("It cost " + str(Decimal(tEnd - tStart).quantize(Decimal('0.00'))) + "seconds.") 
-        self.driver.close()
-      
-    
-    def test_00005_loginloop(self):
+            t04 = tEnd - tStart
+            print("It cost " + str(Decimal(t04).quantize(Decimal('0.00'))) + "seconds.") 
+            unittest.total = unittest.total + t04
+
+    def test_00005_LoginLoop(self):
         count = 0
-        for i in range(0,len(TC4),3):
+        data = read.looplogin()
+        for i in range(0,len(data),3):
+            acct4 = data[i][1]
+            pw4   = data[i+1][1]
+            name4 = data[i+2][1]
             tStart = time.time()
-            settc4(i)
+            #settc4(i)
             self.driver.find_element_by_id("UserLoginForm_username").clear()
             self.driver.find_element_by_id("UserLoginForm_username").send_keys(acct4)
             self.driver.find_element_by_id("UserLoginForm_password").clear()
             self.driver.find_element_by_id("UserLoginForm_password").send_keys(pw4)
-            #self.driver.find_element_by_name("yt0").send_keys(Keys.ENTER)
             self.driver.find_element_by_name("yt0").click()
             self.driver.find_element_by_link_text("Account (" + name4 + ")").click()
             self.driver.find_element_by_link_text("Logout (" + name4 + ")").click()
@@ -180,12 +146,18 @@ class LoginTests(unittest.TestCase):
             print("\n"+"Test:" + str(count) + "\n" +"Account: "+acct4+" password: "+pw4)
             time.sleep(2)
             tEnd = time.time()
-            print("It cost " + str(Decimal(tEnd - tStart).quantize(Decimal('0.00'))) + "seconds.")            
+            t05 = tEnd - tStart
+            print("It cost " + str(Decimal(t05).quantize(Decimal('0.00'))) + "seconds.") 
+            unittest.total = unittest.total + t05
+
         print("\n"+"Number of login/logout test: "+ str(count))
-            
+    
+    def test_00006_TotalTime(self):
+        print("All test case cost " + str(Decimal(unittest.total).quantize(Decimal('0.00'))) + "seconds.")
 
     #End the test, close the browser window
     def tearDown(self):
+        unittest.total = 0
         self.driver.quit()
 
 
