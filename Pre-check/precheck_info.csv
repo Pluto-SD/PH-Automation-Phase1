@@ -1,0 +1,9 @@
+﻿VNet,Amount,12345,COMMENT
+QR,Amount,123,WeChat
+QR,Amount,234,QQ
+QR,Amount,345,Alipay
+QR,Amount,456,CUP
+Precheck_S,Service,Mobile,Service: Vnet / Mobile
+Precheck_C,CID,CQA001,Client ID
+Precheck_C,CID,Client QA001,Client Name
+Precheck_M,MID,MQA00005,MID - VMOBILE2

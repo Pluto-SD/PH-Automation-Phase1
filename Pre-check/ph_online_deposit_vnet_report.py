@@ -1,0 +1,27 @@
+# coding=UTF-8
+
+import unittest
+import HTMLTestRunner
+import os
+# from homepagetests import HomePageTest
+from ph_online_deposit_vnet import VNetTests
+
+"""Get the directory path to output report file"""
+result_dir = os.getcwd()    # 取得目前工作目錄(路徑)
+
+"""Get all tests from SearchProductTest and HomepageTest class"""
+# home_page_tests = unittest.TestLoader().loadTestsFromTestCase(HomePageTest)
+test_page = unittest.TestLoader().loadTestsFromTestCase(VNetTests)
+
+"""Create a test suite combining search_test and home_page_test"""
+# smoke_tests = unittest.TestSuite([home_page_tests, search_tests])
+# one_tests = unittest.TestSuite(test_Logout)
+
+"""Open the report file"""
+outfile = open(result_dir + "\\PH_Deposit_VNet.html", "wb")   # 20191122: w -> wb, 解決TypeError: write() argument must be str, not bytes
+
+# Configure HTMLTestRunner options
+runner = HTMLTestRunner.HTMLTestRunner(stream=outfile, title='PH Deposit VNet Test Report', description='PH online Deposit VNet Test')
+
+# Run the suite using HTMLTestRunner
+runner.run(test_page)
